@@ -14,7 +14,6 @@
   书上使用套接字发送If-Modified-Since头信息：
   
     outw.print("GET " + file + " HTTP/1.0\r\n");
-    
     outw.print("If-Modified-Since: Thu, 13 Apr 2017 09:25:12 GMT\r\n");
     
   我尝试了使用HttpClient来实现该功能:
