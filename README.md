@@ -19,20 +19,37 @@
     
   我尝试了使用HttpClient来实现该功能:
     CloseableHttpClient client = HttpClients.createDefault();
+    
 		HttpGet get = new HttpGet(path);
+		
 		get.addHeader(new Header() { // 这里的Header并不是deader请求，而是头信息参数
+		
 			@Override
+			
 			public String getValue() {
+			
 				return "Thu, 13 Apr 2017 09:25:12 GMT";
+				
 			}
+			
 			@Override
+			
 			public String getName() {
+			
 				return "If-Modified-Since";
+				
 			}
+			
 			@Override
+			
 			public HeaderElement[] getElements() throws ParseException {
+			
 				return null;
+				
 			}
+			
 		});
+		
 		CloseableHttpResponse httpResponse = client.execute(get);
+		
   
