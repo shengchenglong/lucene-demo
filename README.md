@@ -17,6 +17,7 @@
     outw.print("If-Modified-Since: Thu, 13 Apr 2017 09:25:12 GMT\r\n");
     
   我尝试了使用HttpClient来实现该功能:
+  
     CloseableHttpClient client = HttpClients.createDefault();
 		HttpGet get = new HttpGet(path);
 		get.addHeader(new Header() { // 这里的Header并不是deader请求，而是头信息参数
