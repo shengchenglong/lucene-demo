@@ -27,9 +27,6 @@ import org.apache.http.util.EntityUtils;
 /**
  * chapter 2.3.1
  * 下载网页的基本方法
- * 
- * chapter 2.3.2
- * 网页更新的判断
  * @author shengchenglong
  *
  */

@@ -100,10 +100,59 @@ public class LastModifiedPage {
 		client.close();
 	}
 	
+	/**
+	 * 第二次获取网页时，用上次获取的Etag来判断网页是否被修改
+	 * @param path
+	 * @param Etag
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public static void sendEtag(String path, String Etag) throws ClientProtocolException, IOException {
+		CloseableHttpClient client = HttpClients.createDefault();
+		HttpGet get = new HttpGet(path);
+		// 2.再次请求，发送一个If-None-Match头，包含上次返回的Etag
+			get.addHeader(new Header() {
+				@Override
+				public String getValue() {
+					return Etag;
+				}
+				@Override
+				public String getName() {
+					return "If-None-Match";
+				}
+				@Override
+				public HeaderElement[] getElements() throws ParseException {
+					return null;
+				}
+			});
+		CloseableHttpResponse response = client.execute(get);
+		System.out.println(response);
+	}
 	
+	/**
+	 * 第一次抓取网页时 获取Etag值
+	 * @param path
+	 * @return
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	public static String getEtag(String path) throws ClientProtocolException, IOException {
+		// 1.发送一次请求，获取Etag
+		String EtagValue = "";
+		CloseableHttpClient client = HttpClients.createDefault();
+		HttpGet get = new HttpGet(path);
+		CloseableHttpResponse response = client.execute(get);
+		Header[] EtagHeaders = response.getHeaders("Etag");
+		for(Header eHeader : EtagHeaders) {
+			System.out.println(eHeader);
+			EtagValue = eHeader.getValue();
+		}
+		return EtagValue;
+	}
 	
 	public static void main(String[] args) throws IOException {
 //		LastModifiedPage.getPageLastModifiedTime("http://www.ouyeelintl.com");
-		getStatusByLastModified("http://www.ouyeelintl.com");
+//		getStatusByLastModified("http://www.ouyeelintl.com");
+		sendEtag("http://www.ouyeelintl.com", getEtag("http://www.ouyeelintl.com"));
 	}
 }
